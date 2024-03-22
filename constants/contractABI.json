@@ -1,0 +1,9 @@
+[
+  "constructor()",
+  "event TransferFailed(address indexed receiver, uint256 amount)",
+  "event TransferSuccessful(address indexed receiver, uint256 amount)",
+  "function getAmountSent() view returns (uint256)",
+  "function getOwner() view returns (address)",
+  "function stop()",
+  "function transferFund(address receiverAddress) payable"
+]
