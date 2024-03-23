@@ -1,3 +1,4 @@
+
 [
   "constructor()",
   "event TransferFailed(address indexed receiver, uint256 amount)",
@@ -7,3 +8,4 @@
   "function stop()",
   "function transferFund(address receiverAddress) payable"
 ]
+
