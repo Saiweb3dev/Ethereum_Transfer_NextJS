@@ -1,11 +1,114 @@
-
 [
-  "constructor()",
-  "event TransferFailed(address indexed receiver, uint256 amount)",
-  "event TransferSuccessful(address indexed receiver, uint256 amount)",
-  "function getAmountSent() view returns (uint256)",
-  "function getOwner() view returns (address)",
-  "function stop()",
-  "function transferFund(address receiverAddress) payable"
+  {
+    "type": "constructor",
+    "stateMutability": "undefined",
+    "payable": false,
+    "inputs": []
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "TransferFailed",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "receiver",
+        "indexed": true
+      },
+      {
+        "type": "uint256",
+        "name": "amount",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "event",
+    "anonymous": false,
+    "name": "TransferSuccessful",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "receiver",
+        "indexed": true
+      },
+      {
+        "type": "uint256",
+        "name": "amount",
+        "indexed": false
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "getAmountSent",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "getOwner",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "address",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "getReceiver",
+    "constant": true,
+    "stateMutability": "view",
+    "payable": false,
+    "inputs": [],
+    "outputs": [
+      {
+        "type": "address",
+        "name": ""
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "setReceiver",
+    "constant": false,
+    "payable": false,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_receiver"
+      }
+    ],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "stop",
+    "constant": false,
+    "payable": false,
+    "inputs": [],
+    "outputs": []
+  },
+  {
+    "type": "function",
+    "name": "transferFund",
+    "constant": false,
+    "stateMutability": "payable",
+    "payable": true,
+    "inputs": [],
+    "outputs": []
+  }
 ]
-
