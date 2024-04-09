@@ -6,6 +6,11 @@
     "inputs": []
   },
   {
+    "type": "error",
+    "name": "AddressInvalid",
+    "inputs": []
+  },
+  {
     "type": "event",
     "anonymous": false,
     "name": "TransferFailed",
@@ -92,7 +97,12 @@
         "name": "_receiver"
       }
     ],
-    "outputs": []
+    "outputs": [
+      {
+        "type": "address",
+        "name": ""
+      }
+    ]
   },
   {
     "type": "function",
