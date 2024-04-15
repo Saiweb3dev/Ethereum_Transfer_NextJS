@@ -1,0 +1,21 @@
+[
+  {
+    "type": "function",
+    "name": "transferFund",
+    "constant": false,
+    "stateMutability": "payable",
+    "payable": true,
+    "inputs": [
+      {
+        "type": "address",
+        "name": "receiverAddress"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "bool",
+        "name": ""
+      }
+    ]
+  }
+]

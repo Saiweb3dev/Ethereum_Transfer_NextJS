@@ -94,16 +94,9 @@ export default function Home() {
     setWalletAddress("");
  };
 
- function isValidEthereumAddress(address: string): boolean {
-    if (!/^0x[a-fA-F0-9]{40}$/.test(address)) {
-      // Check if it has the basic requirements of an address
-      return false;
-    }
-    return true;
- }
 
  return (
-    <main className="container bg-gradient-to-br h-screen from-pink-800 w-full to-black p-36">
+    <main className="container bg-gradient-to-br h-full from-pink-800 w-full to-black p-36">
       <div className="flex flex-col items-center justify-center space-y-12 p-12 max-w-5xl mx-auto">
         <h1 className="text-7xl font-bold text-white">Transfer Ethereum</h1>
         {connected && (
@@ -119,9 +112,6 @@ export default function Home() {
         <ContractInteraction
           web3={web3}
           contract={contract}
-          receiverAddress={receiverAddress}
-          ethAmount={ethAmount}
-          callContractFunction={callContractFunction}
         />
         <InputField
           label="Enter the Amount of ETH to Send"
