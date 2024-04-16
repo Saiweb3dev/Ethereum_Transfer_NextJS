@@ -1,31 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import Web3 from 'web3';
-import { abi, contractAddressVar } from '../../../constants/index';
-import WalletConnection from './WalletConnection';
-import ContractInteraction from './ContractInteraction';
-import InputField from './InputField';
-import ButtonComponent from './ButtonComponent';
-import ErrorDisplay from './ErrorDisplay';
+import { useEffect, useState } from "react";
+import Web3 from "web3";
+import { abi, contractAddressVar } from "../../../constants/index";
+import ButtonComponent from "./ButtonComponent";
+import ContractInteraction from "./ContractInteraction";
+import ErrorDisplay from "./ErrorDisplay";
+import InputField from "./InputField";
+import WalletConnection from "./WalletConnection";
 
 // Define the type for the contract function parameters
 type ContractFunctionParams = {
- functionName: string;
- params: any[];
- msgValue: number;
+  functionName: string;
+  params: any[];
+  msgValue: number;
 };
 
 export default function Home() {
- const [connected, setConnected] = useState<boolean>(false);
- const [walletAddress, setWalletAddress] = useState<string>("");
- const [web3, setWeb3] = useState<Web3 | null>(null);
- const [contract, setContract] = useState<Web3.Contract | null>(null);
- const [receiverAddress, setReceiverAddress] = useState<string>("");
- const [ethAmount, setEthAmount] = useState<string>(""); // State for ETH amount
- const [error, setError] = useState<string>("");
- // Extract the contract address from contractAddressVar
- const contractAddress = contractAddressVar[31337];
+  const [connected, setConnected] = useState<boolean>(false);
+  const [walletAddress, setWalletAddress] = useState<string>("");
+  const [web3, setWeb3] = useState<Web3 | null>(null);
+  const [contract, setContract] = useState<Web3.Contract | null>(null);
+  const [receiverAddress, setReceiverAddress] = useState<string>("");
+  const [ethAmount, setEthAmount] = useState<string>(""); // State for ETH amount
+  const [error, setError] = useState<string>("");
+  // Extract the contract address from contractAddressVar
+  const contractAddress = contractAddressVar[31337];
 
- useEffect(() => {
+  useEffect(() => {
     if (window.ethereum) {
       const web3Instance = new Web3(window.ethereum);
       setWeb3(web3Instance);
@@ -42,9 +42,13 @@ export default function Home() {
     } else {
       console.log("Please Install MetaMask!");
     }
- }, []);
+  }, []);
 
- const callContractFunction = async ({ functionName, params = [], msgValue }: ContractFunctionParams) => {
+  const callContractFunction = async ({
+    functionName,
+    params = [],
+    msgValue,
+  }: ContractFunctionParams) => {
     console.log("Contract name -> ", functionName);
 
     if (!web3 || !contract) {
@@ -60,7 +64,7 @@ export default function Home() {
         result = await contract.methods[functionName](...params).send({
           from: window.ethereum.selectedAddress,
           value: web3.utils.toWei(msgValue.toString(), "ether"),
-          gas:41000,
+          gas: 41000,
         });
       }
       console.log(result);
@@ -69,9 +73,9 @@ export default function Home() {
       console.log("Error calling contract function:", error);
       setError("An error occurred while calling the contract function.");
     }
- };
+  };
 
- const handleConnectWallet = async () => {
+  const handleConnectWallet = async () => {
     if (window.ethereum) {
       try {
         const web3 = new Web3(window.ethereum);
@@ -85,17 +89,14 @@ export default function Home() {
     } else {
       console.error("No Ethereum provider found");
     }
- };
+  };
 
- 
-
- const handleDisconnectWallet = () => {
+  const handleDisconnectWallet = () => {
     setConnected(false);
     setWalletAddress("");
- };
+  };
 
-
- return (
+  return (
     <main className="container bg-gradient-to-br h-full from-pink-800 w-full to-black p-36">
       <div className="flex flex-col items-center justify-center space-y-12 p-12 max-w-5xl mx-auto">
         <h1 className="text-7xl font-bold text-white">Transfer Ethereum</h1>
@@ -109,10 +110,7 @@ export default function Home() {
           handleConnectWallet={handleConnectWallet}
           handleDisconnectWallet={handleDisconnectWallet}
         />
-        <ContractInteraction
-          web3={web3}
-          contract={contract}
-        />
+        <ContractInteraction web3={web3} contract={contract} />
         <InputField
           label="Enter the Amount of ETH to Send"
           value={ethAmount}
@@ -121,24 +119,42 @@ export default function Home() {
         />
         <ButtonComponent
           text="Send ETH"
-          onClick={() => callContractFunction({ functionName: "transferFund", params: [], msgValue: parseFloat(ethAmount) })}
+          onClick={() =>
+            callContractFunction({
+              functionName: "transferFund",
+              params: [],
+              msgValue: parseFloat(ethAmount),
+            })
+          }
           disabled={!web3 || !contract || ethAmount === ""}
           className="bg-gradient-to-r from-pink-600 to-red-500 hover:bg-gradient-to-r text-white font-bold py-2 px-4 rounded"
         />
         <div className="flex flex-col space-y-6">
           <ButtonComponent
             text="Get the Receiver Address"
-            onClick={() => callContractFunction({ functionName: "getReceiver", params: [], msgValue: 0 })}
+            onClick={() =>
+              callContractFunction({
+                functionName: "getReceiver",
+                params: [],
+                msgValue: 0,
+              })
+            }
             className="bg-gradient-to-r from-pink-600 to-red-500 hover:bg-gradient-to-r text-white font-bold py-2 px-4 rounded"
           />
           <ButtonComponent
             text="Get the Owner Address"
-            onClick={() => callContractFunction({ functionName: "getOwner", params: [], msgValue: 0 })}
+            onClick={() =>
+              callContractFunction({
+                functionName: "getOwner",
+                params: [],
+                msgValue: 0,
+              })
+            }
             className="bg-gradient-to-r from-pink-600 to-red-500 hover:bg-gradient-to-r text-white font-bold py-2 px-4 rounded"
           />
         </div>
         <ErrorDisplay error={error} />
       </div>
     </main>
- );
+  );
 }
