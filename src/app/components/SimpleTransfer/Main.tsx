@@ -54,7 +54,7 @@ const Main = () => {
           setUserBalance(formattedBalance);
 
           console.log("Current Network ID:", currentNetworkId);
-          const networkId = BigInt(31337); // Convert 31337 to BigInt
+          const networkId = BigInt(11155111); // Convert 31337 to BigInt
           setNetworkId(networkId); // Update the network ID state
           if (currentNetworkId === networkId) {
             const contractInstance = new web3Instance.eth.Contract(
