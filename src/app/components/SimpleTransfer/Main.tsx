@@ -9,18 +9,22 @@ type ContractFunctionParams = {
   params: any[];
   msgValue: number;
 };
+interface SimpleContractAddressType {
+  [key: string]: string;
+ }
+
 const Main = () => {
   const [connected, setConnected] = useState<boolean>(false);
   const [walletAddress, setWalletAddress] = useState<string>("");
   const [web3, setWeb3] = useState<Web3 | null>(null);
   const [error, setError] = useState<string>("");
-  const [contract, setContract] = useState<Web3.Contract | null>(null);
+  const [contract, setContract] = useState<any | null>(null);
   const [address, setAddress] = useState<string>("");
   const [amount, setAmount] = useState<number>(0);
   const [networkId, setNetworkId] = useState<BigInt | null>(null);
   const [transactionStatus, setTransactionStatus] = useState<
-    "pending" | "success" | "error"
-  >("");
+    "pending" | "success" | "error" | undefined
+  >(undefined);
   const [userBalance, setUserBalance] = useState<string>("");
 
   useEffect(() => {
@@ -28,7 +32,7 @@ const Main = () => {
 
     if (transactionStatus === "success" || transactionStatus === "error") {
       timer = setTimeout(() => {
-        setTransactionStatus("");
+        setTransactionStatus(undefined);
       }, 1000);
     }
 
@@ -57,14 +61,15 @@ const Main = () => {
           const networkId = BigInt(11155111); // Convert 31337 to BigInt
           setNetworkId(networkId); // Update the network ID state
           if (currentNetworkId === networkId) {
+            const SimpleContractAddressTyped: SimpleContractAddressType = SimpleContractAddress as SimpleContractAddressType;
             const contractInstance = new web3Instance.eth.Contract(
               SimpleABI,
-              SimpleContractAddress[networkId.toString()] // Assuming SimpleContractAddress can handle BigInt keys
+              SimpleContractAddressTyped[networkId.toString()] // Assuming SimpleContractAddress can handle BigInt keys
             );
             console.log("Contract ABI:", SimpleABI);
             console.log(
               "Contract Address:",
-              SimpleContractAddress[networkId.toString()]
+              SimpleContractAddressTyped[networkId.toString()]
             );
             setContract(contractInstance);
           } else {
