@@ -31,4 +31,14 @@ body {
     text-wrap: balance;
   }
 }
+@layer components{
 
+  .input{
+   @apply placeholder:text-gray_green text-neon border border-fade_green bg-black w-auto px-4 py-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-neon focus:ring-offset-2 focus:ring-offset-neon
+  }
+   
+  .button{
+    @apply bg-neon text-black border-2 border-fade_green font-bold py-2 px-4 min-w-60 rounded transition-all duration-300 transform hover:scale-105 active:scale-95
+  }
+
+}

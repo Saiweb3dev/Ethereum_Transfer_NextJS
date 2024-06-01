@@ -9,6 +9,7 @@ import Web3 from 'web3';
 import { SimpleABI, SimpleContractAddress } from '../../../constants/index';
 import QRCodeScanner from './QRCode/QRCodeScanner';
 
+
 type ContractFunctionParams = {
   functionName: string;
   params: any[];
@@ -78,45 +79,68 @@ const Main: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center space-y-6 bg-violet-700 h-screen w-full">
-      <h1 className="text-6xl font-bold">Transfer ETH</h1>
-      {connected && <p className="text-2xl font-semibold text-violet-700 bg-white px-4 py-2 rounded-xl">Wallet: {walletAddress}</p>}
-      {networkId && <p className="text-xl font-semibold text-violet-700 bg-white px-4 py-2 rounded-xl">Network ID: {networkId.toString()}</p>}
-      <div className="text-green-600 font-semibold bg-white p-4 rounded-lg">Balance: {userBalance} ETH</div>
+    <div className=" bg-black text-neon h-full w-full p-6">
+      <div className='flex flex-col justify-center items-center space-y-6 max-w-4xl mx-auto p-6 border-2 border-neon'>
+  <h1 className="text-6xl font-bold transition-all duration-500 transform hover:scale-105">Transfer Token</h1>
+  {connected && (
+    <p className="text-2xl text-fade_green font-semibold bg-black border border-neon p-4 rounded-lg transition-all duration-300 transform hover:scale-105">
+      Wallet: {walletAddress}
+    </p>
+  )}
+  {networkId && (
+    <p className="text-xl  text-fade_green font-semibold bg-black border border-neon p-4 rounded-lg transition-all duration-300 transform hover:scale-105">
+      Network ID: {networkId.toString()}
+    </p>
+  )}
+  <div className="text-fade_green font-semibold bg-black border border-neon p-4 rounded-lg transition-all duration-300 transform hover:scale-105">
+    Balance: {userBalance} ETH
+  </div>
 
-      <WalletConnection />
 
-      <input
-        type="text"
-        placeholder="Enter Address"
-        onChange={(e) => setAddress(e.target.value)}
-        className="placeholder:text-violet-700 text-violet-700 bg-white w-auto px-4 py-2 rounded-xl"
-      />
-      <input
-        type="number"
-        placeholder="Enter Amount"
-        className="placeholder:text-violet-700 text-violet-700 bg-white w-auto px-4 py-2 rounded-xl"
-        onChange={(e) => setAmount(Number(e.target.value))}
-      />
-      <button
-        className="bg-gradient-to-r from-violet-600 to-violet-900 hover:bg-gradient-to-r text-white border-2 border-white font-bold py-2 px-4 rounded"
-        onClick={() => callContractFunction({ functionName: 'transferFund', params: [address], msgValue: amount })}
-      >
-        Send
-      </button>
-      <button
-        className="bg-gradient-to-r from-violet-600 to-violet-900 hover:bg-gradient-to-r text-white border-2 border-white font-bold py-2 px-4 rounded"
-        onClick={() => setShowQRCode(true)}
-      >
-        Generate QR Code
-      </button>
+<div className='flex flex-col justify-center items-center space-y-6 border-4 border-fade_green p-6 rounded-lg'>
 
-      {showQRCode && <WalletQRCode walletAddress={walletAddress} onClose={() => setShowQRCode(false)} />}
-      <TransactionStatus status={transactionStatus} />
-      <div>
-        <QRCodeScanner />
-      </div>
-    </div>
+
+  <input
+    type="text"
+    placeholder="Enter Address"
+    onChange={(e) => setAddress(e.target.value)}
+    className="input"
+  />
+  <input
+    type="number"
+    placeholder="Enter Amount"
+    className="input"
+    onChange={(e) => setAmount(Number(e.target.value))}
+  />
+  {connected ? (<button
+    className="button"
+    onClick={() => callContractFunction({ functionName: 'transferFund', params: [address], msgValue: amount })}
+  >
+    Send
+  </button>):(<WalletConnection />)
+  }
+  
+  
+  </div>
+  <button
+    className="button"
+    onClick={() => setShowQRCode(true)}
+  >
+    Generate QR Code
+  </button>
+
+  {showQRCode && (
+    <WalletQRCode
+      walletAddress={walletAddress}
+      onClose={() => setShowQRCode(false)}
+    />
+  )}
+  <TransactionStatus status={transactionStatus}/>
+  <div className="animate-fade-in-left">
+    <QRCodeScanner />
+  </div>
+  </div>
+</div>
   );
 };
 

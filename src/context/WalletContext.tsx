@@ -1,6 +1,6 @@
 // src/context/WalletContext.tsx
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import Web3 from 'web3';
 
 interface WalletContextProps {
@@ -11,10 +11,12 @@ interface WalletContextProps {
   web3: Web3 | null;
   connectWallet: () => Promise<void>;
   disconnectWallet: () => void;
+  refreshBalance: () => Promise<void>;
 }
 
 const WalletContext = createContext<WalletContextProps | undefined>(undefined);
 
+// Custom hook to use the WalletContext
 export const useWallet = () => {
   const context = useContext(WalletContext);
   if (!context) {
@@ -23,6 +25,7 @@ export const useWallet = () => {
   return context;
 };
 
+// WalletProvider component that manages wallet connection state
 export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [connected, setConnected] = useState<boolean>(false);
   const [walletAddress, setWalletAddress] = useState<string>('');
@@ -30,35 +33,19 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [userBalance, setUserBalance] = useState<string>('');
   const [networkId, setNetworkId] = useState<BigInt | null>(null);
 
-  useEffect(() => {
-    const initialize = async () => {
-      if (typeof window.ethereum !== 'undefined' && window.ethereum) {
-        const web3Instance = new Web3(window.ethereum);
-        setWeb3(web3Instance);
-        try {
-          await window.ethereum.enable();
-          const currentNetworkId = await web3Instance.eth.net.getId();
-          const accounts = await web3Instance.eth.getAccounts();
-          const balance = await web3Instance.eth.getBalance(accounts[0]);
-          const formattedBalance = parseFloat(web3Instance.utils.fromWei(balance, 'ether')).toFixed(2);
-          setUserBalance(formattedBalance);
-          setNetworkId(BigInt(currentNetworkId));
-        } catch (error) {
-          console.error('Error initializing web3:', error);
-        }
-      } else {
-        console.log('Please install MetaMask!');
-      }
-    };
-    initialize();
-  }, []);
-
+  // Function to connect to the wallet using MetaMask
   const connectWallet = async () => {
     if (window.ethereum) {
       try {
-        const web3 = new Web3(window.ethereum);
+        const web3Instance = new Web3(window.ethereum);
         await window.ethereum.enable();
-        const accounts = await web3.eth.getAccounts();
+        const accounts = await web3Instance.eth.getAccounts();
+        const currentNetworkId = await web3Instance.eth.net.getId();
+        const balance = await web3Instance.eth.getBalance(accounts[0]);
+        const formattedBalance = parseFloat(web3Instance.utils.fromWei(balance, 'ether')).toFixed(2);
+        setWeb3(web3Instance);
+        setUserBalance(formattedBalance);
+        setNetworkId(BigInt(currentNetworkId));
         setConnected(true);
         setWalletAddress(accounts[0]);
       } catch (error) {
@@ -69,14 +56,31 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   };
 
+  // Function to disconnect the wallet
   const disconnectWallet = () => {
     setConnected(false);
     setWalletAddress('');
+    setWeb3(null);
+    setUserBalance('');
+    setNetworkId(null);
+  };
+
+  // Function to refresh the user balance
+  const refreshBalance = async () => {
+    if (web3 && walletAddress) {
+      try {
+        const balance = await web3.eth.getBalance(walletAddress);
+        const formattedBalance = parseFloat(web3.utils.fromWei(balance, 'ether')).toFixed(2);
+        setUserBalance(formattedBalance);
+      } catch (error) {
+        console.error('Error refreshing balance:', error);
+      }
+    }
   };
 
   return (
     <WalletContext.Provider
-      value={{ connected, walletAddress, networkId, userBalance, web3, connectWallet, disconnectWallet }}
+      value={{ connected, walletAddress, networkId, userBalance, web3, connectWallet, disconnectWallet, refreshBalance }}
     >
       {children}
     </WalletContext.Provider>

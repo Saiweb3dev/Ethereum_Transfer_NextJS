@@ -1,5 +1,4 @@
 // src/components/WalletConnection.tsx
-
 import React from 'react';
 import { useWallet } from '@/context/WalletContext';
 
@@ -7,14 +6,14 @@ const WalletConnection: React.FC = () => {
   const { connected, walletAddress, connectWallet, disconnectWallet } = useWallet();
 
   return (
-    <div>
+    <div className=''>
       {connected ? (
-        <div>
+        <div className='flex flex-col justify-center items-center'>
           <p>Connected: {walletAddress}</p>
-          <button onClick={disconnectWallet}>Disconnect</button>
+          <button className='button' onClick={disconnectWallet}>Disconnect</button>
         </div>
       ) : (
-        <button onClick={connectWallet}>Connect Wallet</button>
+        <button className='button' onClick={connectWallet}>Connect Wallet</button>
       )}
     </div>
   );

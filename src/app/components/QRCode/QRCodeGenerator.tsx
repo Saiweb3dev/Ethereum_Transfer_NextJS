@@ -3,6 +3,8 @@ import QRCode from 'qrcode.react';
 
 interface WalletQRCodeProps {
   walletAddress: string;
+  onClose: () => void; // Add this line
+  // other props...
 }
 
 const WalletQRCode: React.FC<WalletQRCodeProps> = ({ walletAddress }) => {
