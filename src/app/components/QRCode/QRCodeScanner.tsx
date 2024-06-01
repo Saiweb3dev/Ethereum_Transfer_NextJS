@@ -3,15 +3,17 @@ import QrScanner from 'react-qr-scanner';
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const QRCodeReader = () => {
+  // State variables to manage scanning status, scan result, and copied status
   const [scanning, setScanning] = useState(false);
   const [result, setResult] = useState('');
-  const [scanMode, setScanMode] = useState('camera');
   const [copied, setCopied] = useState(false);
 
+  // Handle the scanned data
   const handleScan = (data:any) => {
     if (data) {
       console.log("Scanned Data:", data);
       const scannedData = data.text || data; // Handle both string and object with text property
+
       if (typeof scannedData === 'string' && (scannedData.startsWith('http://') || scannedData.startsWith('https://'))) {
         const urlParams = new URLSearchParams(scannedData.split('?')[1]);
         const walletAddress = urlParams.get('address');
@@ -30,25 +32,24 @@ const QRCodeReader = () => {
     }
   };
 
+  // Handle errors during scanning
   const handleError = (error:any) => {
     console.error(error);
   };
 
+  // Start the scanning process
   const startScanning = () => {
     setScanning(true);
     // No need to reset result here
   };
 
+  // Stop the scanning process and reset the result
   const closeScanner = () => {
     setScanning(false);
-    // Keep the result even after closing the scanner
+    setResult(''); // Reset the result when stopping the scan
   };
 
-  const handleScanModeChange = (event:any) => {
-    setScanMode(event.target.value);
-    // Removed photo-related logic
-  };
-
+  // Handle the copy action and display a temporary confirmation
   const handleCopy = () => {
     setCopied(true);
     setTimeout(() => {
@@ -56,60 +57,48 @@ const QRCodeReader = () => {
     }, 2000);
   };
 
+  // Log the updated result whenever it changes
   useEffect(() => {
     console.log("Result updated:", result);
   }, [result]);
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      {!scanning && (
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="mb-4">
-            <label className="mr-2 font-bold">Scan Mode:</label>
-            <label className="mr-2">
-              <input
-                type="radio"
-                name="scanMode"
-                value="camera"
-                checked={scanMode === 'camera'}
-                onChange={handleScanModeChange}
-                className="form-radio text-indigo-600"
-              />
-              <span className="ml-2">Camera</span>
-            </label>
-          </div>
+    <div className="max-w-md container mx-auto px-4 py-8">
+      {!scanning ? (
+        // Display the start scanning button if not currently scanning
+        <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
           <button
             onClick={startScanning}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded transition duration-300"
           >
             Start Scanning
           </button>
         </div>
-      )}
-      {scanning && (
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <div className="relative">
+      ) : (
+        // Display the QR scanner and result if currently scanning
+        <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
+          <div className="relative w-full">
             <QrScanner
               onScan={handleScan}
               onError={handleError}
-              style={{ width: '100%', maxHeight: '300px' }}
+              className="w-full max-h-72"
             />
             <div className="mt-4 text-center">
-              <p>{result}</p>
+              <p className="text-black">{result}</p>
               <CopyToClipboard text={result} onCopy={handleCopy}>
                 <button
-                  className={`bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mt-2 ${
-                    copied? 'bg-green-600 hover:bg-green-700' : ''
+                  className={`bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded mt-2 transition duration-300 ${
+                    copied ? 'bg-green-600 hover:bg-green-700' : ''
                   }`}
                 >
-                  {copied? 'Copied!' : 'Copy to Clipboard'}
+                  {copied ? 'Copied!' : 'Copy to Clipboard'}
                 </button>
               </CopyToClipboard>
             </div>
           </div>
           <button
             onClick={closeScanner}
-            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4"
+            className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-4 transition duration-300"
           >
             Stop Scanning
           </button>

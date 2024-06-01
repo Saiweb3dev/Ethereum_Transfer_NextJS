@@ -31,16 +31,4 @@ body {
     text-wrap: balance;
   }
 }
-@layer components {
-  .form-radio {
-     @apply h-5 w-5 text-indigo-600 transition duration-150 ease-in-out;
-  }
 
-  .form-input {
-    @apply shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none;
-    /* Explicitly define the focus state */
-    &:focus {
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Equivalent to Tailwind's shadow-md */
-    }
-  }
-}
