@@ -2,7 +2,7 @@
 
 import { useWallet } from "@/context/WalletContext";
 import React, { useEffect, useState } from "react";
-import { SimpleABI, SimpleContractAddress } from "../../../constants/index";
+import { SimpleABI, SimpleContractAddress } from "../../constants/index";
 import WalletQRCode from "./QRCode/QRCodeGenerator";
 import QRCodeScanner from "./QRCode/QRCodeScanner";
 import TransactionStatus from "./TransactionStatus";
@@ -139,7 +139,7 @@ const Main: React.FC = () => {
             <hr />
             <div className="flex flex-col justify-center items-center space-x-6 text-center mx-auto">
               <p className="font-bold text-xl">ETH</p>
-              {connected && ( <p>Balance:{userBalance}</p>)}
+              {connected && <p>Balance:{userBalance}</p>}
             </div>
           </div>
           <div className="flex flex-col justify-center items-start px-2 py-3 bg-gray_green rounded-lg w-full">
