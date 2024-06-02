@@ -3,9 +3,9 @@ import React from 'react';
 import { useWallet } from '@/context/WalletContext';
 import Link from 'next/link';
 import { Address } from 'web3';
-
-const Navbar = () => {
-  const { connected, walletAddress, networkId, connectWallet } = useWallet();
+import NetworkDropdown from './NetworkDropdown';
+const Navbar: React.FC = () => {
+  const { connected, walletAddress, networkId, connectWallet, changeNetwork } = useWallet();
 
   const handleConnect = async () => {
     try {
@@ -14,14 +14,17 @@ const Navbar = () => {
       console.error('Error connecting wallet:', error);
     }
   };
-  function shortenAddress(address:Address) {
-    // Keep the first 4 characters, then add '...' and the last 4 characters
+
+  const handleNetworkChange = async (newNetworkId: number) => {
+    await changeNetwork(newNetworkId);
+  };
+
+  function shortenAddress(address: Address): string {
     return `${address.substring(0, 4)}...${address.substring(address.length - 4)}`;
   }
-  
 
   return (
-    <nav className="bg-black py-4 px-4">
+    <nav className="bg-black py-4 px-8">
       <div className="container mx-auto flex items-center justify-between">
         <div className="text-neon text-lg font-bold">E-Pay</div>
         <ul className="flex space-x-4">
@@ -36,9 +39,9 @@ const Navbar = () => {
           </li>
         </ul>
         {connected ? (
-          <div className="flex items-center text-white">
+          <div className="flex items-center text-white space-x-2">
+            <span>{networkId ? <NetworkDropdown initialNetworkId={String(networkId)} onNetworkChange={handleNetworkChange} /> : ''}</span>
             <span className="mr-2">{shortenAddress(walletAddress)}</span>
-            <span>{networkId ? `(Network ID: ${networkId.toString()})` : ''}</span>
           </div>
         ) : (
           <button

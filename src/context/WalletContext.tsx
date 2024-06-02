@@ -12,6 +12,7 @@ interface WalletContextProps {
   connectWallet: () => Promise<void>;
   disconnectWallet: () => void;
   refreshBalance: () => Promise<void>;
+  changeNetwork: (networkId: number) => Promise<void>;
 }
 
 const WalletContext = createContext<WalletContextProps | undefined>(undefined);
@@ -78,9 +79,39 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   };
 
+  // Add this function inside your WalletProvider component
+const changeNetwork = async (desiredNetworkId: number) => {
+  try {
+    // Convert the network ID to a hexadecimal string
+    const chainIdHex = `0x${desiredNetworkId.toString(16)}`;
+
+    // Request the network change
+    await window.ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: chainIdHex }],
+    });
+
+    // After successful network switch, you might want to re-fetch the current network ID
+    // and other relevant information to keep your context state accurate.
+    if (web3!== null) {
+      const currentNetworkId = await web3.eth.net.getId();
+      setNetworkId(BigInt(currentNetworkId));
+  } else {
+      console.error('Web3 instance is null');
+  }
+
+    // Optionally, refresh other dependent states like user balance
+    // await refreshBalance(); // Uncomment if you want to automatically refresh balance after network switch
+  } catch (error) {
+    console.error('Failed to switch network:', error);
+    // Handle errors, e.g., user rejection or unsupported network
+  }
+};
+
+
   return (
     <WalletContext.Provider
-      value={{ connected, walletAddress, networkId, userBalance, web3, connectWallet, disconnectWallet, refreshBalance }}
+      value={{ connected, walletAddress, networkId, userBalance, web3, connectWallet, disconnectWallet, refreshBalance,changeNetwork }}
     >
       {children}
     </WalletContext.Provider>
