@@ -1,5 +1,5 @@
 // src/context/WalletContext.tsx
-
+"use client"
 import React, { createContext, useContext, useState } from 'react';
 import Web3 from 'web3';
 

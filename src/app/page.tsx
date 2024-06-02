@@ -1,14 +1,13 @@
 "use client";
 
-import { WalletProvider } from "@/context/WalletContext";
-import SimpleTransferMain from "../components/SimpleTransferMain";
 import Navbar from "../components/Navbar";
+import SimpleTransferMain from "../components/SimpleTransferMain";
 
 export default function Home() {
   return (
-    <WalletProvider>
+  <>
       <Navbar />
       <SimpleTransferMain />
-    </WalletProvider>
+      </>
   );
 }
