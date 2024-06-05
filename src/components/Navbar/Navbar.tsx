@@ -26,7 +26,7 @@ const Navbar: React.FC = () => {
   return (
     <nav className="bg-black py-4 px-8">
       <div className="container mx-auto flex items-center justify-between">
-        <div className="text-neon text-lg font-bold">E-Pay</div>
+        <Link href="/" className="text-neon text-lg font-bold">EzCryptoPay</Link>
         <ul className="flex space-x-4">
           <li>
             <Link href='/QR_Code_Generator' className="text-white hover:text-gray-400">Generate QR</Link>

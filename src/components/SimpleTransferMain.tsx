@@ -112,17 +112,6 @@ const Main: React.FC = () => {
         <h1 className="text-6xl font-bold transition-all duration-500 transform hover:scale-105">
           Transfer Token
         </h1>
-        {connected && (
-          <p className="text-2xl text-fade_green font-semibold bg-black border border-neon p-4 rounded-lg transition-all duration-300 transform hover:scale-105">
-            Wallet: {walletAddress}
-          </p>
-        )}
-        {networkId && (
-          <p className="text-xl text-fade_green font-semibold bg-black border border-neon p-4 rounded-lg transition-all duration-300 transform hover:scale-105">
-            Network ID: {networkId.toString()}
-          </p>
-        )}
-
         <div className="flex flex-col justify-center items-center space-y-6 border-4 border-fade_green p-6 rounded-lg">
           <div className="flex flex-col justify-center items-start px-2 py-6 bg-gray_green rounded-lg w-full">
             <label htmlFor="amount" className="ml-3 text-fade_green">
@@ -172,20 +161,7 @@ const Main: React.FC = () => {
             <WalletConnection />
           )}
         </div>
-        <button className="button" onClick={() => setShowQRCode(true)}>
-          Generate QR Code
-        </button>
-
-        {showQRCode && (
-          <WalletQRCode
-            walletAddress={walletAddress}
-            onClose={() => setShowQRCode(false)}
-          />
-        )}
         <TransactionStatus status={transactionStatus} />
-        <div className="animate-fade-in-left">
-          <QRCodeScanner />
-        </div>
       </div>
     </div>
   );
