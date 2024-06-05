@@ -53,6 +53,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         console.error('Error connecting wallet:', error);
       }
     } else {
+      alert("Please install MetaMask or other Ethereum-compatible wallet");
       console.error('No Ethereum provider found');
     }
   };

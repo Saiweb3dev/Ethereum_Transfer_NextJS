@@ -1,17 +1,22 @@
 "use client"
-import React from 'react';
+
+import React,{useState} from 'react';
 import { useWallet } from '@/context/WalletContext';
 import Link from 'next/link';
 import { Address } from 'web3';
 import NetworkDropdown from './NetworkDropdown';
+import Spinner from '../Spinner';
 const Navbar: React.FC = () => {
   const { connected, walletAddress, networkId, connectWallet, changeNetwork } = useWallet();
-
+  const [isLoading,setIsLoading] = useState<boolean>(false);
   const handleConnect = async () => {
     try {
+      setIsLoading(true)
       await connectWallet();
     } catch (error) {
       console.error('Error connecting wallet:', error);
+    } finally{
+      setIsLoading(false)
     }
   };
 
@@ -48,7 +53,7 @@ const Navbar: React.FC = () => {
             className="button"
             onClick={handleConnect}
           >
-            Connect
+           {isLoading ?<Spinner/> : 'Connect' }
           </button>
         )}
       </div>

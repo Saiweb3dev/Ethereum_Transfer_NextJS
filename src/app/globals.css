@@ -41,4 +41,8 @@ body {
     @apply bg-neon text-black border-2 border-fade_green hover:bg-fade_green font-bold py-2 px-4 min-w-60 rounded transition-all duration-300 transform hover:scale-105 active:scale-95
   }
 
+  .spinner{
+    
+  }
+
 }

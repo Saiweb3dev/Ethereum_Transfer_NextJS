@@ -1,9 +1,22 @@
 // src/components/WalletConnection.tsx
-import React from 'react';
+"use client";
+import React,{useState} from 'react';
 import { useWallet } from '@/context/WalletContext';
-
+import Spinner from './Spinner';
 const WalletConnection: React.FC = () => {
   const { connected, walletAddress, connectWallet, disconnectWallet } = useWallet();
+
+  const [isLoading,setIsLoading] = useState<boolean>(false);
+  const handleConnect = async () => {
+    try {
+      setIsLoading(true)
+      await connectWallet();
+    } catch (error) {
+      console.error('Error connecting wallet:', error);
+    } finally{
+      setIsLoading(false)
+    }
+  };
 
   return (
     <div className=''>
@@ -13,7 +26,12 @@ const WalletConnection: React.FC = () => {
           <button className='button' onClick={disconnectWallet}>Disconnect</button>
         </div>
       ) : (
-        <button className='button' onClick={connectWallet}>Connect Wallet</button>
+        <button
+            className="button"
+            onClick={handleConnect}
+          >
+           {isLoading ?<Spinner/> : 'Connect' }
+          </button>
       )}
     </div>
   );
