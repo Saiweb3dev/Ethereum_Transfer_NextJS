@@ -66,17 +66,17 @@ const QRCodeReader = () => {
     <div className="max-w-md container mx-auto px-4 py-8">
       {!scanning ? (
         // Display the start scanning button if not currently scanning
-        <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
+        <div className="bg-black rounded-lg shadow-md p-6 flex flex-col items-center">
           <button
             onClick={startScanning}
-            className="bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded transition duration-300"
+            className="bg-neon hover:bg-fade_green text-black font-bold py-2 px-4 rounded transition duration-300"
           >
             Start Scanning
           </button>
         </div>
       ) : (
         // Display the QR scanner and result if currently scanning
-        <div className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center">
+        <div className="bg-black border-2 border-neon rounded-lg shadow-md p-6 flex flex-col items-center">
           <div className="relative w-full">
             <QrScanner
               onScan={handleScan}
@@ -87,9 +87,7 @@ const QRCodeReader = () => {
               <p className="text-black">{result}</p>
               <CopyToClipboard text={result} onCopy={handleCopy}>
                 <button
-                  className={`bg-violet-600 hover:bg-violet-700 text-white font-bold py-2 px-4 rounded mt-2 transition duration-300 ${
-                    copied ? 'bg-green-600 hover:bg-green-700' : ''
-                  }`}
+                  className={`bg-neon hover:bg-fade_green text-black font-bold py-2 px-4 rounded mt-2 transition duration-300`}
                 >
                   {copied ? 'Copied!' : 'Copy to Clipboard'}
                 </button>

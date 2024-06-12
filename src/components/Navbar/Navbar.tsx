@@ -37,7 +37,7 @@ const Navbar: React.FC = () => {
             <Link href='/QR_Code_Generator' className="text-white hover:text-gray-400">Generate QR</Link>
           </li>
           <li>
-            <Link href='/QR_Code_Generator' className="text-white hover:text-gray-400">Scan N Pay</Link>
+            <Link href='/SCAN_N_PAY' className="text-white hover:text-gray-400">Scan N Pay</Link>
           </li>
           <li>
             <button className="text-white hover:text-gray-400">Split Pay</button>
