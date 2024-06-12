@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import WalletConnection from '@/components/WalletConnection'; // Component for connecting wallets
 import { useWallet } from '@/context/WalletContext'; // Context hook for wallet-related data
-import { SimpleABI, SimpleContractAddress } from '../../../constants'; // Smart contract ABI and address constants
+import { flexiEthContractAddress, flexiEthContractABI } from "../../../constants/index"// Smart contract ABI and address constants
 
 // Type definition for contract function parameters
 type ContractFunctionParams = {
@@ -26,8 +26,8 @@ function SplitPay() {
   // Initialize the contract when web3 and networkId are available
   useEffect(() => {
     if (web3 && networkId) {
-      const SimpleContractAddressTyped = SimpleContractAddress as Record<string, string>; // Cast to expected type
-      const contractInstance = new web3.eth.Contract(SimpleABI, SimpleContractAddressTyped[networkId.toString()]); // Create contract instance
+      const flexiEthContractAddressTyped = flexiEthContractAddress as Record<string, string>; // Cast to expected type
+      const contractInstance = new web3.eth.Contract(flexiEthContractABI, flexiEthContractAddressTyped[networkId.toString()]); // Create contract instance
       setContract(contractInstance);
     }
   }, [web3, networkId]);
@@ -78,7 +78,7 @@ function SplitPay() {
       const result = await contract.methods[functionName](...params).send({
         from: window.ethereum.selectedAddress,
         value: web3.utils.toWei(msgValue.toString(), "ether"), // Convert Ether to Wei
-        gas: 41000, // Set gas limit
+        gas: 64000, // Set gas limit
       });
       setTransactionStatus("success");
       console.log("Transaction result:", result);

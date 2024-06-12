@@ -2,7 +2,7 @@
 
 import { useWallet } from "@/context/WalletContext";
 import React, { useEffect, useState } from "react";
-import { SimpleABI, SimpleContractAddress } from "../../constants/index";
+import { flexiEthContractAddress, flexiEthContractABI } from "../../constants/index";
 import WalletQRCode from "./QRCode/QRCodeGenerator";
 import QRCodeScanner from "./QRCode/QRCodeScanner";
 import TransactionStatus from "./TransactionStatus";
@@ -45,13 +45,13 @@ const Main: React.FC = () => {
 
   useEffect(() => {
     if (web3 && networkId) {
-      const SimpleContractAddressTyped = SimpleContractAddress as Record<
+      const flexiEthContractAddressTyped = flexiEthContractAddress as Record<
         string,
         string
       >;
       const contractInstance = new web3.eth.Contract(
-        SimpleABI,
-        SimpleContractAddressTyped[networkId.toString()]
+        flexiEthContractABI,
+        flexiEthContractAddressTyped[networkId.toString()]
       );
       setContract(contractInstance);
     }
