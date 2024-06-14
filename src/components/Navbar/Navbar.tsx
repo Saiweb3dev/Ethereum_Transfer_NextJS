@@ -40,7 +40,7 @@ const Navbar: React.FC = () => {
             <Link href='/SCAN_N_PAY' className="text-white hover:text-gray-400">Scan N Pay</Link>
           </li>
           <li>
-          <Link href='/Split_Pay' className="text-white hover:text-gray-400">Scan N Pay</Link>
+          <Link href='/Split_Pay' className="text-white hover:text-gray-400">Split Pay</Link>
           </li>
         </ul>
         {connected ? (

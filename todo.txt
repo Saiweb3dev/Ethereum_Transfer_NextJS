@@ -1,0 +1,5 @@
+1) Converting the $ amount into eth using api to calculate
+2) showing the transaction successfull with receipt
+3) making it responsive
+4) deploying in sepolia,amoy and asking user which testnet before sending eth
+5) scan and pay improvement like after scanning a button which will redirect to single payment with the address copied
